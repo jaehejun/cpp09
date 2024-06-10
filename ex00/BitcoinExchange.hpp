@@ -1,25 +1,35 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
+#include <iostream>
 #include <map>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 
 class BitcoinExchange
 {
 	private:
-		std::map<std::string, int> marketPrice;
-		//std::map<std::string, int> balance;
-		std::string date;
-		int balance;
-		float balance;
+		std::map<std::string, float> marketPrice;
+
+		BitcoinExchange(const BitcoinExchange &other);
+		BitcoinExchange &operator=(const BitcoinExchange &other);
 	
 	public:
 		BitcoinExchange();
 		~BitcoinExchange();
-		BitcoinExchange(const BitcoinExchange &other);
-		BitcoinExchange &operator=(const BitcoinExchange &other);
+
+		void getData(std::ifstream &data);
+		float getExchangeRate(std::string &inputDate);
+
+		void printMap();
+
+		
 
 		// make marketPrice
-		void getData(data.csv);
+
+		//void getData(data.csv);
 		/*
 		parse data.csv
 		std::getline()
@@ -31,7 +41,8 @@ class BitcoinExchange
 */
 
 		// make balance
-		void getInput(std::string &inputLine);
+
+		//void getInput(std::string &inputLine);
 		/*
 		parse input
 		std::getline()
@@ -45,7 +56,9 @@ class BitcoinExchange
 
 
 		// print result
-		void printResult()
+
+		//void printResult()
+		
 		/*
 
 		if marketprice.value == 0

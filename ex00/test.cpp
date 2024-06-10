@@ -2,9 +2,23 @@
 #include <map>
 #include <vector>
 #include <stack>
+#include <fstream>
 
-int main()
+void printMap(std::map<std::string, float> &m)
 {
+	for (std::map<std::string, float>::iterator itr = m.begin(); itr != m.end(); ++itr)
+	{
+		std::cout << itr->first << " " << itr->second << std::endl;
+	}
+}
+
+int main(int argc, char** argv)
+{
+	if (argc != 2)
+		std::cout << "ERROR: Invalid arguments!" << std::endl;
+	
+	std::fstream *data = fstream("./data.csv", NULL);
+
 	//std::string date1 = "2011-01-10";
 	//std::string date2 = "2011-01-09";
 
@@ -13,25 +27,18 @@ int main()
 	//else
 	//	std::cout << date2 << std::endl;
 
-	std::vector<int> my;
+	std::map<std::string, float> marketPrice;
 
-	std::cout << &my << std::endl;
-	std::cout << "size: " << my.size() << std::endl;
-	my.push_back(3);
-	my.push_back(4);
-	std::vector<int>::iterator it = my.begin();
-	std::vector<int>::iterator itEnd = my.end();
-	std::cout << "begin(): " << &it << std::endl;
-	std::cout << "end(): " << &itEnd << std::endl;
-	std::cout << "begin() is pointing: " << &*it << std::endl;
-	std::cout << "vector[0]: " << &my[0] << std::endl;
-	std::cout << "end() is pointing: " << &*itEnd << std::endl;
-	std::cout << "vector[1]: " << &my[1] << std::endl;
-	std::cout << "vector[2]: " << &my[2] << std::endl;
+	marketPrice["2022-03-22"] = 42372.67;
+	marketPrice.insert(std::pair<std::string, float>("2022-03-25", 44334.33));
+	marketPrice.insert(std::make_pair("2022-03-29", 47115.93));
 
+	//printMap(marketPrice);
 
-	//std::cout << "begin: " << *it << std::endl;
-	//std::cout << "end: " << *(--itEnd) << std::endl;
+	std::cout << "2022/03/22 : " << marketPrice["2022-03-22"] << std::endl;
+	std::map<std::string,float>::iterator it = marketPrice.find("2022-03-25");
+	if (it != marketPrice.end())
+		std::cout << it->second << std::endl;
 
 	return 0;
 }
