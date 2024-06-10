@@ -1,6 +1,8 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange() 
+std::map<std::string,float> BitcoinExchange::marketPrice;
+
+BitcoinExchange::BitcoinExchange(std::string &date, float &value) :  inputDate(date), inputValue(value)
 {}
 
 BitcoinExchange::~BitcoinExchange()
@@ -9,7 +11,6 @@ BitcoinExchange::~BitcoinExchange()
 void BitcoinExchange::getData(std::ifstream &data)
 {
 	std::string line;
-	//std::string date;
 	float rate;
 
 	std::getline(data, line);
@@ -22,12 +23,28 @@ void BitcoinExchange::getData(std::ifstream &data)
 	}
 }
 
+void BitcoinExchange::checkValid()
+{
+	//inputDate
+	//inputValue
+
+	//throw std::exception();
+	;
+}
+
+std::string BitcoinExchange::getDate()
+{
+	return inputDate;
+}
+float BitcoinExchange::getValue()
+{
+	return inputValue;
+}
+
 float BitcoinExchange::getExchangeRate(std::string &inputDate)
 {
 	std::map<std::string,float>::iterator it = marketPrice.upper_bound(inputDate);
 	--it;
-	std::cout << "DATE: " << it->first << std::endl;
-	std::cout << "RATE: " << it->second << std::endl;
 	return it->second;
 }
 

@@ -4,8 +4,15 @@
 #include <map>
 #include <string>
 
+//int checkLine(std::string &inputLine)
+//{
+//	4 - 2 - 2 " | " value
+//}
+
 //int checkDate(std::string &inputLine)
 //{
+	//1,2,3,4,5,6,7,8,9,10,11,12
+	//31,28/29,31,30,31,30,31,31,30,31,30,31
 
 //	return 0;
 //}
@@ -18,38 +25,58 @@
 
 int main(int argc, char** argv)
 {
+	// main argument count
 	if (argc != 2)
-		std::cout << "Error: could not open file." << std::endl;
-	
-	//BitcoinExchange bitcoinExchange;
-
-	std::ifstream data("data.csv");
-	if (data.is_open())
-		std::cout << "OPENABLE!" << std::endl;
-	
-	BitcoinExchange exchange;
-	exchange.getData(data);
-	//exchange.printMap();
-
-	std::ifstream input(argv[1]);
-	if (input.is_open())
-		;
-
-	std::string line;
-	std::getline(input, line);
-	while (std::getline(input, line))
 	{
-		std::string date = line.substr(0,10);
-		float number;
-		std::stringstream value(line.substr(13));
-		value >> number;
+		std::cout << "Error: could not open file." << std::endl;
+		return -1;
+	}
+	
+	// main argument open&&empty
+	std::ifstream inputFile(argv[1]);
+	std::string inputLine;
+	if (!inputFile.is_open() || !getline(inputFile, inputLine))
+	{
+		std::cout << "Error: not openable or empty file" << std::endl;
+		return -1;
+	}
 
-		std::cout << date << std::endl;
-		std::cout << number << std::endl;
+	// data.csv open
+	std::ifstream data("data.csv");
+	if (!data.is_open())
+	{
+		std::cout << "Error: could not open data.csv file." << std::endl;
+		return -1;
+	}
+	
+	//static func getData;
+	BitcoinExchange::getData(data);
 
-		exchange.getExchangeRate(date);
+	while (std::getline(inputFile, inputLine))
+	{
+		std::stringstream inputStream(inputLine);
+		std::string date, value;
+		float fValue;
+
+		std::getline(inputStream, date, '|');
+		std::getline(inputStream, value, '|');
+		std::stringstream valStream(value);
+		valStream >> fValue;
+
+		BitcoinExchange inputData(date, fValue);
+		try
+		{
+			inputData.checkValid();
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << '\n';
+		}
 		
-		//std::cout << date << " => " << number << " = " << exchange.getExchangeRate(date) * number << std::endl;
+		std::cout << date << " => " << number << " = " << exchange.getExchangeRate(date) * number << std::endl;
+		
+
+
 	}
 	
 

@@ -11,18 +11,22 @@
 class BitcoinExchange
 {
 	private:
-		std::map<std::string, float> marketPrice;
+		static std::map<std::string, float> marketPrice;
+		std::string inputDate;
+		float inputValue;
 
 		BitcoinExchange(const BitcoinExchange &other);
 		BitcoinExchange &operator=(const BitcoinExchange &other);
 	
 	public:
-		BitcoinExchange();
+		BitcoinExchange(std::string &date, float &value);
 		~BitcoinExchange();
+		static void getData(std::ifstream &data);
 
-		void getData(std::ifstream &data);
+		void checkValid();
+		void getDate();
+		void getValue();
 		float getExchangeRate(std::string &inputDate);
-
 		void printMap();
 
 		
