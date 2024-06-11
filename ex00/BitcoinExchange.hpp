@@ -21,12 +21,20 @@ class BitcoinExchange
 	public:
 		BitcoinExchange(std::string &date, float &value);
 		~BitcoinExchange();
-		static void getData(std::ifstream &data);
+		static void loadData(std::ifstream &data);
 
-		void checkValid();
-		void getDate();
-		void getValue();
+		void loadInput(std::string &inputLine);
+		void checkDate();
+		void checkValue();
+
+		std::string getDate();
+		float getValue();
+
+		std::string getMarketDate(std::string &date);
+		float getMarketValue(std::string &date);
+
 		float getExchangeRate(std::string &inputDate);
+
 		void printMap();
 
 		

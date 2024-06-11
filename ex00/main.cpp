@@ -3,6 +3,7 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include <algorithm>
 
 //int checkLine(std::string &inputLine)
 //{
@@ -50,33 +51,52 @@ int main(int argc, char** argv)
 	}
 	
 	//static func getData;
-	BitcoinExchange::getData(data);
+	BitcoinExchange::loadData(data);
 
 	while (std::getline(inputFile, inputLine))
 	{
+		// entirely empty line
+		if (inputLine.empty())
+			continue;
 		std::stringstream inputStream(inputLine);
 		std::string date, value;
 		float fValue;
 
 		std::getline(inputStream, date, '|');
-		std::getline(inputStream, value, '|');
-		std::stringstream valStream(value);
-		valStream >> fValue;
+		// empty but '|'
+		if (date.empty())
+			date = "";
 
+
+		std::getline(inputStream, value);
+		if (value.empty())
+			fValue = 0;
+		else if (int dotCount = std::count(value.begin(), value.end(), '.') > 1)
+		{
+			fValue = 0;
+		}
+		else
+		{
+			std::stringstream valStream(value);
+			valStream >> fValue;
+		}
 		BitcoinExchange inputData(date, fValue);
+
+		std::cout << inputData.getDate() << ":" << inputData.getValue() << std::endl;
 		try
 		{
-			inputData.checkValid();
+			inputData.checkDate();
+			inputData.checkValue();
 		}
 		catch(const std::exception& e)
 		{
 			std::cerr << e.what() << '\n';
+			continue;
 		}
+		//std::cout <<"BEFORE LOOP" << std::endl;
 		
-		std::cout << date << " => " << number << " = " << exchange.getExchangeRate(date) * number << std::endl;
-		
-
-
+		//std::cout << inputData.getMarketDate(date) << ":" << inputData.getMarketValue(date) << std::endl;
+		//std::cout << date << " => " << number << " = " << exchange.getExchangeRate(date) * number << std::endl;
 	}
 	
 
