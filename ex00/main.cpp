@@ -66,7 +66,8 @@ int main(int argc, char** argv)
 		// empty but '|'
 		if (date.empty())
 			date = "";
-
+		
+		// date.length() ㄱㅓㅁ사, date[0~3]0000, [4]:- [5]~[6] 00 [7]:- [8~9] 00
 
 		std::getline(inputStream, value);
 		if (value.empty())
