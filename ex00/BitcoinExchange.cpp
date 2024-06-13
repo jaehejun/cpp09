@@ -33,7 +33,6 @@ int BitcoinExchange::checkDate(std::string &date)
 
 	std::string trimmed = date.substr(0,4) + date.substr(5,2) + date.substr(8,2);
 
-	// not digit include
 	for (size_t i = 0; i < trimmed.length(); ++i)
 	{
 		if (!isdigit(trimmed[i]))
@@ -42,7 +41,7 @@ int BitcoinExchange::checkDate(std::string &date)
 
 	int intDate = std::atoi(trimmed.c_str());
 	if (intDate < marketPrice.begin()->first)
-		return -1; // bad input + date(no rate exists)
+		return -1;
 
 	int year, month, day;
 	year = std::atoi(date.substr(0,4).c_str());
@@ -78,7 +77,7 @@ float BitcoinExchange::checkValue(std::string &value)
 {
 	float fValue;
 
-	if (value.empty() || value.length() < 2 || value[0] != ' ')
+	if (value.empty() || value.length() < 2 || value[0] != ' ' || value[1] == '.')
 		return std::cout << "Error: not a number" << std::endl, -1;
 	if (int dotCount = std::count(value.begin(), value.end(), '.') > 1)
 		return std::cout << "Error: not a valid number" << std::endl, -1;

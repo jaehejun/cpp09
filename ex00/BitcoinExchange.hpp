@@ -28,8 +28,6 @@ class BitcoinExchange
 
 		int getDate();
 		float getValue();
-
-		//static float getExchangeRate();
 		float getExchangeRate();
 };
 
