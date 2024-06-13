@@ -79,11 +79,14 @@ float BitcoinExchange::checkValue(std::string &value)
 
 	if (value.empty() || value.length() < 2 || value[0] != ' ' || value[1] == '.')
 		return std::cout << "Error: not a number" << std::endl, -1;
+	size_t i = 1;
+	if (value[i] == '+' || value[i] == '-')
+		i++;
 	if (int dotCount = std::count(value.begin(), value.end(), '.') > 1)
 		return std::cout << "Error: not a valid number" << std::endl, -1;
-	for (size_t i = 1; i < value.length(); ++i)
+	for (; i < value.length(); ++i)
 	{
-		if (!(isdigit(value[i]) || value[i] == '.' || value[i] == '-'))
+		if (!(isdigit(value[i]) || value[i] == '.'))
 			return std::cout << "Error: not a number" << std::endl, -1;
 	}
 	if (value[1] == '-')

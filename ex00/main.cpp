@@ -25,7 +25,6 @@ int main(int argc, char** argv)
 	
 	BitcoinExchange::loadData(data);
 
-	std::cout << "LOAD" << std::endl;
 	while (std::getline(inputFile, inputLine))
 	{
 		if (inputLine.empty())
@@ -34,7 +33,6 @@ int main(int argc, char** argv)
 		std::string date, value;
 
 		std::getline(inputStream, date, '|');
-		std::cout << date << std::endl;
 		int inputDate = BitcoinExchange::checkDate(date);
 		if (inputDate == -1)
 		{

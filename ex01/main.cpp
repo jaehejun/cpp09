@@ -1,12 +1,5 @@
 #include "RPN.hpp"
 
-bool isOperation(int operation)
-{
-	if (operation == '+' || operation == '-' || operation == '/' || operation == '*' || operation == ' ')
-		return true;
-	return false;
-}
-
 int main(int argc, char **argv)
 {
 	if (argc != 2)
