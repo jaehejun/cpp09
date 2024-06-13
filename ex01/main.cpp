@@ -1,71 +1,55 @@
 #include "RPN.hpp"
 
+bool isOperation(int operation)
+{
+	if (operation == '+' || operation == '-' || operation == '/' || operation == '*' || operation == ' ')
+		return true;
+	return false;
+}
+
 int main(int argc, char **argv)
 {
-	(void)argv;
-	std::cout << "+: " << int('+') << std::endl;
-	std::cout << "-: " << int('-') << std::endl;
-	std::cout << "/: " << int('/') << std::endl;
-	std::cout << "*: " << int('*') << std::endl;
 	if (argc != 2)
 		return std::cout << "Error" << std::endl, -1;
 
-	std::stack<int> rpn;
-
 	std::string input = argv[1];
+	for (size_t i = 0; i < input.size(); ++i)
+	{
+		if (i % 2 == 1 && input[i] != ' ')
+			return std::cout << "Error" << std::endl, -1;
+	}
 	
-	std::cout << input << std::endl;
+	RPN rpn;
 
 	for (size_t i = 0; i < input.length(); ++i)
 	{
-		//if (!isdigit(input[i]) || input[i] != ' ' || input[i] != '+' || input[i] != '-' || input[i] != '/' || input[i] != '*')
-		//	return std::cout << "fError" << std::endl, -1;
-		int lvalue;
-		int rvalue;
-		switch (input[i])
+		if (rpn.isWrongElement(input[i]))
+			return std::cout << "Error" << std::endl, -1;
+
+		switch(input[i])
 		{
 			case ' ':
 				break;
 			case '+':
-				if (rpn.size() != 2)
-					return std::cout << "+Error" << std::endl, -1;
-				lvalue = rpn.top();
-				rpn.pop();
-				rvalue = rpn.top();
-				rpn.pop();
-				rpn.push(lvalue + rvalue);
+				rpn.plus();
 				break;
 			case '-':
-				if (rpn.size() != 2)
-					return std::cout << "-Error" << std::endl, -1;
-				lvalue = rpn.top();
-				rpn.pop();
-				rvalue = rpn.top();
-				rpn.pop();
-				rpn.push(lvalue - rvalue);
+				rpn.minus();
 				break;
 			case '/':
-				if (rpn.size() != 2)
-					return std::cout << "/Error" << std::endl, -1;
-				lvalue = rpn.top();
-				rpn.pop();
-				rvalue = rpn.top();
-				rpn.pop();
-				rpn.push(lvalue / rvalue);
+				rpn.devide();
 				break;
 			case '*':
-				if (rpn.size() != 2)
-					return std::cout << "*Error" << std::endl, -1;
-				lvalue = rpn.top();
-				rpn.pop();
-				rvalue = rpn.top();
-				rpn.pop();
-				rpn.push(lvalue * rvalue);
+				rpn.multiple();
 				break;
 			default:
-				rpn.push(static_cast<int>(input[i]));
-				std::cout << rpn.top() << std::endl;
+				rpn.pushElement(input[i]);
 		}
+		if (rpn.isError())
+			return std::cout << "Error" << std::endl, -1;
 	}
+	if (rpn.getStackSize() != 1)
+		return std::cout << "Error" << std::endl, -1;
+	std::cout << rpn.getResult() << std::endl;
 	return 0;
 }

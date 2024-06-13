@@ -1,7 +1,6 @@
 #ifndef RPN_HPP
 #define RPN_HPP
 
-#include <algorithm>
 #include <stack>
 #include <iostream>
 
@@ -9,7 +8,7 @@ class RPN
 {
 	private:
 		std::stack<int> rpnStack;
-		int result;
+		bool error;
 
 		RPN(const RPN &other);
 		RPN &operator=(const RPN &other);
@@ -17,6 +16,19 @@ class RPN
 	public:
 		RPN();
 		~RPN();
+
+		int isWrongElement(char element);
+		void pushElement(char element);
+
+		void plus();
+		void minus();
+		void devide();
+		void multiple();
+
+		bool isError();
+
+		int getStackSize();
+		int getResult();
 };
 
 #endif
