@@ -24,7 +24,7 @@ void BitcoinExchange::loadData(std::ifstream &data)
 	}
 }
 
-int BitcoinExchange::checkDate(std::string &date)
+int BitcoinExchange::loadDate(std::string &date)
 {
 	if (date[10] != ' ' || date.length() != 11)
 		return -1;
@@ -73,22 +73,27 @@ int BitcoinExchange::checkDate(std::string &date)
 	return intDate;
 }
 
-float BitcoinExchange::checkValue(std::string &value)
+float BitcoinExchange::loadValue(std::string &value)
 {
 	float fValue;
 
 	if (value.empty() || value.length() < 2 || value[0] != ' ' || value[1] == '.')
 		return std::cout << "Error: not a number" << std::endl, -1;
+
 	size_t i = 1;
 	if (value[i] == '+' || value[i] == '-')
-		i++;
-	if (int dotCount = std::count(value.begin(), value.end(), '.') > 1)
-		return std::cout << "Error: not a valid number" << std::endl, -1;
+		++i;
 	for (; i < value.length(); ++i)
 	{
 		if (!(isdigit(value[i]) || value[i] == '.'))
 			return std::cout << "Error: not a number" << std::endl, -1;
 	}
+	if (!(isdigit(value[--i])))
+		return std::cout << "Error: not a number" << std::endl, -1;
+
+	if (int dotCount = std::count(value.begin(), value.end(), '.') > 1)
+		return std::cout << "Error: not a number" << std::endl, -1;
+	
 	if (value[1] == '-')
 		return std::cout << "Error: not a positive nubmer" << std::endl, -1;
 	std::stringstream valStream(value);

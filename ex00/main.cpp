@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 		std::string date, value;
 
 		std::getline(inputStream, date, '|');
-		int inputDate = BitcoinExchange::checkDate(date);
+		int inputDate = BitcoinExchange::loadDate(date);
 		if (inputDate == -1)
 		{
 			std::cout << "Error: bad input => " << date << std::endl;
@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 		}
 		
 		std::getline(inputStream, value);
-		float inputValue = BitcoinExchange::checkValue(value);
+		float inputValue = BitcoinExchange::loadValue(value);
 		if (inputValue == -1)
 			continue;
 

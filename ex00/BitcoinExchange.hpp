@@ -23,8 +23,8 @@ class BitcoinExchange
 		BitcoinExchange(int &date, float &value);
 		~BitcoinExchange();
 		static void loadData(std::ifstream &data);
-		static int checkDate(std::string &date);
-		static float checkValue(std::string &value);
+		static int loadDate(std::string &date);
+		static float loadValue(std::string &value);
 
 		int getDate();
 		float getValue();
