@@ -28,6 +28,48 @@
 	//	std::cout << "First:" << it->first << "Second:" << it->second << std::endl;
 	//}
 
+
+
+procedure MergeInsertion(d : array of n elements)
+	step 1: Pairwise comparison
+	for all 1 <= i <= [2/n] do
+		ai <- max{di, ai+[n/2]}
+		bi <- min{di,ai+[n/2]}
+	end for
+	if n mod 2 = 1 then
+		b[n/2] <- dn
+	end if
+	step 2: Recursion and Renaming
+	m <- {(ai,bi) | 1 <= i <= [n/2]}
+	a <- MergeInsertion(a)
+	for all 1 <= i < [n/2] do
+		bi <- e where (ai,e) is included in m
+	end for
+	step 3: Insertion
+	d <- b1,a1, ... a[n/2]
+	k <- 2
+	while tk-1 < [n/2] do
+		m <- min{tk,[n/2]}
+		u <- tk-1 + m
+		for i in m down to tk-1 + 1 do
+			d <- BinaryInsertion(bi,d1, ..., du-1), du, ..., d2m+tk-w -i
+			while du != ai-1 do
+				u <- u - 1
+			end while
+		end for
+		k <- k + 1
+	end while
+	return d
+end procedure
+
+
+
+
+
+
+
+
+
 #include <iostream>
 #include <vector>
 
