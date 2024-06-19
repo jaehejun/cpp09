@@ -76,3 +76,56 @@ int main() {
     
     return 0;
 }
+
+int jacobsthal(int n)
+{
+	if (n == 0)
+		return 0;
+	else if (n == 1)
+		return 1;
+	int i = jacobsthal(n-1) + 2 * jacobsthal(n-2);
+	return i;
+}
+
+std::vector<int> jacobArray(size_t pendingSize)
+{
+	int index = 3;
+	std::vector<int> jacobArray;
+	while (jacobsthal(index) < pendingSize)
+	{
+		jacobArray.push_back(jacobsthal(index));
+		++index;
+	}
+	
+}
+
+
+int	PmergeMe::PmergeVec::Jacobsthal(int n)	//일반 야콥스탈 구현
+{
+	if (n == 0)
+		return (0);
+	else if (n == 1)
+		return (1);
+	int i = Jacobsthal(n - 1) + 2 * Jacobsthal(n - 2);
+	return (i);
+}
+
+void	PmergeMe::PmergeVec::MakeJacobArr()
+{
+	size_t	remain_size;
+	size_t	jacobsthal_idx;
+	int	index;
+
+	remain_size = this->remain.size();
+	index = 3;	//이미 remain의 첫 번째는 처리했으므로 3(그 다음 최소 야콥스탈 수)부터 처리한다.
+
+	while ((jacobsthal_idx = this->Jacobsthal(index)) < remain_size)	//remain의 갯수보다 작을 때까지 반복해서 돌리며 배열에 넣어준다.
+	{
+		this->jacob_arr.push_back(jacobsthal_idx);
+		index++;
+	}
+}
+
+
+
+1 (3,2) (5,4) (11,10,9,8,7,6) (21,20,19,18,17,16,15,14,13,12) (43...22) (85...44)

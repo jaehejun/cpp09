@@ -1,28 +1,50 @@
 #include <iostream>
 #include <vector>
 
-std::vector<int> binaryInsertion(int value, std::vector<int> sorted)
+int binaryInsertion(std::vector<int> sorted, size_t range, int value)
 {
 	int left = 0;
-	int right = sorted.size() - 1;
-	while (left <= right)
+	int right = range;
+	while (left < right)
 	{
 		int mid = (left + right) / 2;
 		//std::cout << "LEFT:" << left << std::endl;
 		//std::cout << "RIGHT:" << right << std::endl;
 		//std::cout << "MID:" << mid << std::endl;
 		if (value < sorted[mid])
-			right = mid - 1;
+			right = mid;
 		else //(value > sorted[mid])
 			left = mid + 1;
 	}
-	sorted.insert(sorted.begin() + left, value);
+	//sorted.insert(sorted.begin() + left, value);
 	//std::vector<int> result = sorted;
 	//result.insert(result.begin() + left, value);
 
 	//return result;
-	return sorted;
+	return left;
 }
+//std::vector<int> binaryInsertion(int value, std::vector<int> sorted)
+//{
+//	int left = 0;
+//	int right = sorted.size() - 1;
+//	while (left <= right)
+//	{
+//		int mid = (left + right) / 2;
+//		//std::cout << "LEFT:" << left << std::endl;
+//		//std::cout << "RIGHT:" << right << std::endl;
+//		//std::cout << "MID:" << mid << std::endl;
+//		if (value < sorted[mid])
+//			right = mid - 1;
+//		else //(value > sorted[mid])
+//			left = mid + 1;
+//	}
+//	sorted.insert(sorted.begin() + left, value);
+//	//std::vector<int> result = sorted;
+//	//result.insert(result.begin() + left, value);
+
+//	//return result;
+//	return sorted;
+//}
 
 std::vector<int> mergeInsertion(std::vector<int> mainChain)
 {
@@ -86,15 +108,48 @@ std::vector<int> mergeInsertion(std::vector<int> mainChain)
 	sorted.insert(sorted.begin(), pending[0]);
 	//for (int i = 2; i < main.size() + pending.size(); ++i)
 
-	//step 4 : Binary Insertion
-	while (sorted.size() < main.size() + pending.size())
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	std::vector<int> jacobArr;
+	size_t jacobIdx = 1; // index(0) is already inserted to main
+	size_t prev = 0, curr = 1;
+	while (curr <= pending.size() - 1)
 	{
-		int index = 1;
-		//std::vector<int> result = binaryInsertion(pending[index], main);
-		//std::cout << "BEFORE BINARY" << std::endl;
-		sorted = binaryInsertion(pending[index], sorted);
-		//std::cout << "AFTER BINARY" << std::endl;
+		curr = jacobArr[jacobIdx++] - 1;
+		if (curr >= pending.size())
+			curr = pending.size() - 1;
+		for (size_t i = curr; i > prev; --i)
+		{
+			size_t range;
+			if (main.size() % 2 == 1 && i == pending.size() - 1)
+				range = sorted.size();
+			else
+				range = std::lower_bound(sorted.begin(), sorted.end(), main[i]) - sorted.begin();
+			size_t insertPos = binaryInsertion(sorted, range, pending[i]);
+			sorted.insert(sorted.begin() + insertPos, pending[i]);
+		}
+		prev = curr++;
 	}
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	
+
+
+
+
+
+
+
+
+
+	//step 4 : Binary Insertion
+	//while (sorted.size() < main.size() + pending.size())
+	//{
+	//	int pendingIndex = 1;
+	//	//std::vector<int> result = binaryInsertion(pending[index], main);
+	//	//std::cout << "BEFORE BINARY" << std::endl;
+	//	sorted = binaryInsertion(pending[pendingIndex], sorted);
+	//	//std::cout << "AFTER BINARY" << std::endl;
+	//}
 	std::cout << "@@@@@@@@SORTED@@@@@@@@@@@@@" << std::endl;
 	for (int i = 0; i < sorted.size(); ++i)
 		std::cout << sorted[i] << std::endl;
