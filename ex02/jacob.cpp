@@ -1,64 +1,84 @@
 #include <iostream>
 #include <vector>
+	//int maxJacobNumber = 0;
+	//while (jacobsthalNumber(maxJacobNumber) < mainNumber)
+	//	++maxJacobNumber;
 
-int jacobsthal(int n)
+int jacobsthalNumber(int number)
 {
-	if (n == 0)
+	if (number == 0)
 		return 0;
-	else if (n == 1)
+	else if (number == 1)
 		return 1;
-	int i = jacobsthal(n-1) + 2 * jacobsthal(n-2);
-	return i;
+	else
+		return (jacobsthalNumber(number-1) +jacobsthalNumber(number-2) * 2);
 }
 
-
-//{
-//	size_t	remain_size;
-//	size_t	jacobsthal_idx;
-//	int	index;
-
-//	remain_size = this->remain.size();
-//	index = 3;	//이미 remain의 첫 번째는 처리했으므로 3(그 다음 최소 야콥스탈 수)부터 처리한다.
-
-//	while ((jacobsthal_idx = this->Jacobsthal(index)) < remain_size)	//remain의 갯수보다 작을 때까지 반복해서 돌리며 배열에 넣어준다.
-//	{
-//		this->jacob_arr.push_back(jacobsthal_idx);
-//		index++;
-//	}
-//}
-
-std::vector<int> jacobArray(size_t pendingSize)
+std::vector<int> makeJacobsthalArray(size_t mainNumber)
 {
-	int index = 3;
-	int jacobIndex = jacobsthal(index);
 	std::vector<int> jacobArray;
-	while ((jacobIndex = jacobsthal(index)) < pendingSize)
+	
+	int startJacobNumber = 2;
+	int index = 0;
+	while (index < mainNumber)
 	{
-		jacobArray.push_back(jacobIndex);
-		++index;
+		int maxNumber = jacobsthalNumber(startJacobNumber); // 1, 3, 5, 11, 21, 43, 85, ...
+		if (maxNumber > mainNumber)
+			maxNumber = mainNumber;
+		int putNumber = maxNumber - 1;
+		while (index < maxNumber)
+		{
+			jacobArray.push_back(putNumber--);
+			index++;
+		}
+		startJacobNumber++;
 	}
 	return jacobArray;
 }
 
+//std::vector<int> jacobArray(size_t pendingSize)
+//{
+//	int index = 3;
+//	int jacobIndex = jacobsthal(index);
+//	std::vector<int> jacobArray;
+//	while ((jacobIndex = jacobsthal(index)) < pendingSize)
+//	{
+//		jacobArray.push_back(jacobIndex);
+//		++index;
+//	}
+//	return jacobArray;
+//}
+
 int main()
 {
-	std::vector<int> test;
+	std::vector<int> jacob = makeJacobsthalArray(5);
+	std::cout << "jacob(5) : ";
+	for (int i = 0; i < jacob.size(); ++i)
+		std::cout << jacob[i] << " ";
+	std::cout << std::endl;
 
-	std::cout << "@@@@ 2 @@@@" << std::endl;
-	test = jacobArray(3);
-	for (int i = 0; i < test.size(); ++i)
-		std::cout << test[i] << std::endl;
+	std::vector<int> jacob10 = makeJacobsthalArray(10);
+	std::cout << "jacob(10) : ";
+	for (int i = 0; i < jacob10.size(); ++i)
+		std::cout << jacob10[i] << " ";
+	std::cout << std::endl;
 
-	std::cout << "@@@@ 3 @@@@" << std::endl;
-	test = jacobArray(3);
-	for (int i = 0; i < test.size(); ++i)
-		std::cout << test[i] << std::endl;
-	
-	std::cout << "@@@@ 7 @@@@" << std::endl;
-	test = jacobArray(3);
-	for (int i = 0; i < test.size(); ++i)
-		std::cout << test[i] << std::endl;
-	
+	std::vector<int> jacob15 = makeJacobsthalArray(15);
+	std::cout << "jacob(15) : ";
+	for (int i = 0; i < jacob15.size(); ++i)
+		std::cout << jacob15[i] << " ";
+	std::cout << std::endl;
+
+	std::vector<int> jacob20 = makeJacobsthalArray(20);
+	std::cout << "jacob(20) : ";
+	for (int i = 0; i < jacob20.size(); ++i)
+		std::cout << jacob20[i] << " ";
+	std::cout << std::endl;
+
+	std::vector<int> jacob21 = makeJacobsthalArray(21);
+	std::cout << "jacob(21) : ";
+	for (int i = 0; i < jacob21.size(); ++i)
+		std::cout << jacob21[i] << " ";
+	std::cout << std::endl;
 	return 0;
-	
 }
