@@ -1,20 +1,22 @@
 #include "PmergeMe.hpp"
 
 int PmergeMe::compairCount = 0;
-//main argument error handling
-PmergeMe::PmergeMe(int argc, char** argv)
+
+// class construction
+PmergeMe::PmergeMe(int argc, char** argv) : unsortedVector(), sortedVector(), unsortedDeque(), sortedDeque(), inputSize(0), vectorTime(0), dequeTime(0), start(0) 
 {
 	for (int i = 1; i < argc; ++i)
 	{
-		pVector.push_back(std::make_pair(std::atoi(argv[i]), i));
-		pDeque.push_back(std::make_pair(std::atoi(argv[i]), i));
+		unsortedVector.push_back(std::atoi(argv[i]));
+		unsortedDeque.push_back(std::atoi(argv[i]));
 	}
-	inputSize = static_cast<long>(pVector.size());
+	inputSize = static_cast<long>(unsortedVector.size());
 }
 
 PmergeMe::~PmergeMe()
 {}
 
+//main argument error handling
 int PmergeMe::checkInputString(const std::string &inputString)
 {
 	for (size_t i = 0; i < inputString.size(); ++i)
@@ -25,143 +27,7 @@ int PmergeMe::checkInputString(const std::string &inputString)
 	return 0;
 }
 
-//vector sorting
-
-//void PmergeMe::binaryInsertion(std::vector<std::pair<int,int> > &sorted, int value, long rightEnd)
-//{
-//	long left = 0;
-//	long right = rightEnd;
-//	while (left <= right)
-//	{
-//		long mid = (left + right) / 2;
-//		//std::cout << "LEFT:" << left << std::endl;
-//		//std::cout << "RIGHT:" << right << std::endl;
-//		//std::cout << "MID:" << mid << std::endl;
-//		compairCount++;
-//		if (value < sorted[mid].first)
-//			right = mid - 1;
-//		else //(value > sorted[mid])
-//			left = mid + 1;
-//	}
-//	sorted.insert(sorted.begin() + left, value);
-//}
-
-
-std::vector<std::pair<int,int> > PmergeMe::mergeInsertion(std::vector<std::pair<int,int> > mainChain)
-{
-	//step 1 : pairwise comparison
-	size_t n = mainChain.size();
-	std::cout << "MAIN SIZE: " << n << std::endl;
-	std::vector<std::pair<int,int> > main;
-	std::vector<std::pair<int,int> > pending;
-	//std::vector<std::pair<int,int> > pairs;
-	for (size_t index = 0; index < n / 2; ++index)
-	{
-		if (mainChain[index].first < mainChain[n/2 + index].first)
-		{
-			main.push_back(mainChain[n/2 + index]);
-			pending.push_back(mainChain[index]);
-			//pairs.push_back(std::make_pair(mainChain[n/2 + index], mainChain[index]));
-		}
-		else
-		{
-			main.push_back(mainChain[index]);
-			pending.push_back(mainChain[n/2 + index]);
-			//pairs.push_back(std::make_pair(mainChain[index], mainChain[n/2 + index]));
-		}
-	}
-	if (n % 2 == 1)
-		pending.push_back(mainChain[n-1]);
-
-	//for (int i = 0; i < main.size(); ++i)
-	//	std::cout << "MAIN:" << main[i] << std::endl;
-	//for (int i = 0; i < pending.size(); ++i)
-	//	std::cout << "PEND:" << pending[i] << std::endl;
-
-	//step 2 : Recursion and Renaming
-	if (main.size() > 1)
-		main = mergeInsertion(main);
-
-	//step 3 : Insertion
-
-	//std::cout << "@@@@@@@@MAIN BEFORE SORTED@@@@@@@@@@@@@" << std::endl;
-	//for (int i = 0; i < main.size(); ++i)
-	//	std::cout << main[i] << std::endl;
-	//std::cout << "@@@@@@@@PEND BEFORE SORTED@@@@@@@@@@@@@" << std::endl;
-	//for (int i = 0; i < pending.size(); ++i)
-	//	std::cout << pending[i] << std::endl;
-	
-	//@@@@@@OG ver of matching pending with main!@@@@
-	//for (int i = 0; i < main.size(); ++i)
-	//{
-	//	for (size_t j = 0; j < pairs.size(); ++j)
-	//	{
-	//		if (pairs[j].first == main[i])
-	//			pending[i] = pairs[j].second;
-	//	}
-	//}
-
-	for (size_t i = 0; i < main.size(); ++i)
-	{
-		pending[i] = pending[main[i].second];
-	}
-
-	//std::cout << "@@@@@@@@  PEND CHANGED!!!! @@@@@@@@@@@@@" << std::endl;
-	//for (int i = 0; i < pending.size(); ++i)
-	//	std::cout << pending[i] << std::endl;
-
-	std::vector<std::pair<int,int> > sorted = main;
-	std::vector<long> jacobArray = makeJacobsthalArray(pending.size());
-
-	//std::cout << "@@@@@@@@  JACOB @@@@@@@@@" << std::endl;
-	//for (int i = 0; i < jacobArray.size(); ++i)
-	//	std::cout << jacobArray[i] << std::endl;
-	// pending[0] < main[0] 항상 만족하므로 먼저 맨앞에 넣고 나머지 insert
-	sorted.insert(sorted.begin(), pending[0]);
-
-	for (size_t i = 1; i < jacobArray.size();) // i : 1부터 binary()
-	{
-		//std::cout << "BINARY!!!" << std::endl;
-		//binary search insertion
-
-
-		//binaryInsertion(sorted, pending[jacobArray[i]].first, jacobArray[i] + i - 1);
-		
-		
-		
-		++i;
-	}
-
-	//if (main.size() < pending.size())
-	//{
-	//	std::cout << "MAIN:" << main.size() << " PEND:" << pending.size() << std::endl;
-	//	binaryInsertion(sorted, pending[pending.size()-1], sorted.size()-1);
-	//}
-
-
-	//std::cout << "@@@@@@@@SORTED@@@@@@@@@@@@@" << std::endl;
-	//for (int i = 0; i < sorted.size(); ++i)
-	//	std::cout << sorted[i] << std::endl;
-
-	//std::cout << "@@@@@@@@MAIN after SORTED@@@@@@@@@@@@@" << std::endl;
-	//for (int i = 0; i < main.size(); ++i)
-	//	std::cout << main[i] << std::endl;
-	//std::cout << "@@@@@@@@PEND after SORTED@@@@@@@@@@@@@" << std::endl;
-	//for (int i = 0; i < pending.size(); ++i)
-	//	std::cout << pending[i] << std::endl;
-
-	return sorted;
-}
-
-
-
-
-
-
-
-
-
-//jacobsthal making
+//jacobsthal Number
 long PmergeMe::jacobsthalNumber(long number)
 {
 	if (number == 0)
@@ -172,7 +38,66 @@ long PmergeMe::jacobsthalNumber(long number)
 		return (jacobsthalNumber(number-1) +jacobsthalNumber(number-2) * 2);
 }
 
-std::vector<long> PmergeMe::makeJacobsthalArray(long mainSize)
+
+//@@@@@@@@@@@@@@@@@@@  vector sorting @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+std::vector<int> PmergeMe::getVector()
+{
+	return unsortedVector;
+}
+
+std::vector<int> PmergeMe::mergeInsertion(std::vector<int> mainChain)
+{
+	//step 1 : pair comparison
+	size_t n = mainChain.size();
+	std::vector<int> main;
+	std::vector<int> pending;
+	std::vector<std::pair<int,int> > pairs;
+	for (size_t i = 0; i < n / 2; ++i)
+	{
+		if (mainChain[i] < mainChain[n/2 + i])
+		{
+			main.push_back(mainChain[n/2 + i]);
+			pending.push_back(mainChain[i]);
+			pairs.push_back(std::make_pair(mainChain[n/2 + i], mainChain[i]));
+		}
+		else
+		{
+			main.push_back(mainChain[i]);
+			pending.push_back(mainChain[n/2 + i]);
+			pairs.push_back(std::make_pair(mainChain[i], mainChain[n/2 + i]));
+		}
+	}
+	if (n % 2 == 1)
+		pending.push_back(mainChain[n-1]);
+
+
+	//step 2 : Recursion and Renaming
+	if (main.size() > 1)
+		main = mergeInsertion(main);
+	
+	//step 3 : Insertion
+	for (size_t i = 0; i < main.size(); ++i)
+	{
+		for (size_t j = 0; j < pairs.size(); ++j)
+		{
+			if (pairs[j].first == main[i])
+				pending[i] = pairs[j].second;
+		}
+	}
+	std::vector<int> sorted = main;
+	std::vector<long> jacobArray = makeJacobsthalVector(pending.size());
+
+	sorted.insert(sorted.begin(), pending[0]);
+	for (size_t i = 1; i < jacobArray.size();)
+	{
+		binaryInsertion(sorted, pending[jacobArray[i]], jacobArray[i] + i - 1);
+		++i;
+	}
+	return sorted;
+	//vec = sorted;
+}
+
+std::vector<long> PmergeMe::makeJacobsthalVector(long mainSize)
 {
 	std::vector<long> jacobArray;
 	
@@ -194,7 +119,128 @@ std::vector<long> PmergeMe::makeJacobsthalArray(long mainSize)
 	return jacobArray;
 }
 
+void PmergeMe::binaryInsertion(std::vector<int> &sorted, int value, long rightEnd)
+{
+	long left = 0;
+	long right = rightEnd;
+	long mid;
+	while (left <= right)
+	{
+		mid = (left + right) / 2;
+		compairCount++;
+		if (value < sorted[mid])
+			right = mid - 1;
+		else //(value > sorted[mid])
+			left = mid + 1;
+	}
+	sorted.insert((sorted.begin() + left), value);
+}
 
+
+//@@@@@@@@@@@@@@@@@@@  Deque sorting @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+std::deque<int> PmergeMe::getDeque()
+{
+	return unsortedDeque;
+}
+
+std::deque<int> PmergeMe::mergeInsertion(std::deque<int> mainChain)
+{
+	//step 1 : pair comparison
+	size_t n = mainChain.size();
+	std::deque<int> main;
+	std::deque<int> pending;
+	std::deque<std::pair<int,int> > pairs;
+	for (size_t i = 0; i < n / 2; ++i)
+	{
+		if (mainChain[i] < mainChain[n/2 + i])
+		{
+			main.push_back(mainChain[n/2 + i]);
+			pending.push_back(mainChain[i]);
+			pairs.push_back(std::make_pair(mainChain[n/2 + i], mainChain[i]));
+		}
+		else
+		{
+			main.push_back(mainChain[i]);
+			pending.push_back(mainChain[n/2 + i]);
+			pairs.push_back(std::make_pair(mainChain[i], mainChain[n/2 + i]));
+		}
+	}
+	if (n % 2 == 1)
+		pending.push_back(mainChain[n-1]);
+
+
+	//step 2 : Recursion and Renaming
+	if (main.size() > 1)
+		main = mergeInsertion(main);
+	
+	//std::cout << "@@@@@@@ END MERGE @@@@@" << std::endl;
+
+	//step 3 : Insertion
+	for (size_t i = 0; i < main.size(); ++i)
+	{
+		for (size_t j = 0; j < pairs.size(); ++j)
+		{
+			if (pairs[j].first == main[i])
+				pending[i] = pairs[j].second;
+		}
+	}
+	//@@@@@@OG ver of matching pending with main!@@@@
+	std::deque<int> sorted = main;
+	std::deque<long> jacobArray = makeJacobsthalDeque(pending.size());
+
+	// pending[0] < main[0] 항상 만족하므로 먼저 맨앞에 넣고 나머지 insert
+	sorted.insert(sorted.begin(), pending[0]);
+
+	for (size_t i = 1; i < jacobArray.size();) // i : 1부터 binary()
+	{
+		//std::cout << "BINARY!!!" << std::endl;
+		//binary search insertion
+
+		binaryInsertion(sorted, pending[jacobArray[i]], jacobArray[i] + i - 1);
+		++i;
+	}
+	return sorted;
+}
+
+std::deque<long> PmergeMe::makeJacobsthalDeque(long mainSize)
+{
+	std::deque<long> jacobArray;
+	
+	int startJacobNumber = 2;
+	long index = 0;
+	while (index < mainSize)
+	{
+		long maxNumber = jacobsthalNumber(startJacobNumber); // 1, 3, 5, 11, 21, 43, 85, ...
+		if (maxNumber > mainSize)
+			maxNumber = mainSize;
+		long putNumber = maxNumber - 1;
+		while (index < maxNumber)
+		{
+			jacobArray.push_back(putNumber--);
+			index++;
+		}
+		startJacobNumber++;
+	}
+	return jacobArray;
+}
+
+
+void PmergeMe::binaryInsertion(std::deque<int> &sorted, int value, long rightEnd)
+{
+	long left = 0;
+	long right = rightEnd;
+	long mid;
+	while (left <= right)
+	{
+		mid = (left + right) / 2;
+		compairCount++;
+		if (value < sorted[mid])
+			right = mid - 1;
+		else //(value > sorted[mid])
+			left = mid + 1;
+	}
+	sorted.insert((sorted.begin() + left), value);
+}
 
 
 
@@ -202,44 +248,45 @@ std::vector<long> PmergeMe::makeJacobsthalArray(long mainSize)
 void PmergeMe::displayUnsorted()
 {
 	std::cout << "Before: ";
-	for (size_t i = 0; i < pVector.size(); ++i)
-		std::cout << pVector[i].first << " ";
+	for (size_t i = 0; i < unsortedVector.size(); ++i)
+		std::cout << unsortedVector[i] << " ";
 	std::cout << std::endl;
 }
 
 void PmergeMe::displaySorted()
 {
 	std::cout << "After:  ";
-	for (size_t i = 0; i < pVector.size(); ++i)
-		std::cout << pVector[i].first << " ";
+	for (size_t i = 0; i < sortedVector.size(); ++i)
+		std::cout << sortedVector[i] << " ";
 	std::cout << std::endl;
 }
 
 void PmergeMe::displayVectorTime()
 {
 	std::cout << "Time to process a range of "<< inputSize << " elements with std::vector : ";
-	std::cout << vectorTime << " us" << std::endl;
+	std::cout << static_cast<double>(vectorTime) / CLOCKS_PER_SEC << " us" << std::endl;
 }
 
 void PmergeMe::displayDequeTime()
 {
 	std::cout << "Time to process a range of "<< inputSize << " elements with std::deque : ";
-	std::cout << dequeTime << " us" << std::endl;
+	std::cout << static_cast<double>(dequeTime) / CLOCKS_PER_SEC << " us" << std::endl;
 }
 
-void PmergeMe::startTime()
+//time
+void PmergeMe::setStartTime()
 {
 	start = clock();
 }
 
-void PmergeMe::finishTime()
+void PmergeMe::calculateVectorTime()
 {
-	finish = clock();
+	vectorTime = clock() - start;
 }
 
-void PmergeMe::calculateTime()
+void PmergeMe::calculateDequeTime()
 {
-	vectorTime = finish - start;
+	dequeTime = clock() - start;
 }
 
 //return static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000.0;

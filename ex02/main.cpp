@@ -5,17 +5,6 @@ int main(int argc, char** argv)
 	if (argc < 3)
 		return std::cout << "Error" << std::endl, -1;
 
-	//std::vector<int> stringInput;
-
-	//for (long i = 1; i < argc; ++i)
-	//{
-	//	//std::vector<std::string> stringInput;
-	//	stringInput.push_back(std::atoi(argv[i]));
-	//}
-
-	//for (int i = 0; i < stringInput.size(); ++i)
-	//	std::cout << stringInput[i] << std::endl;
-
 	std::string inputString;
 	for (int i = 1; i < argc; ++i)
 	{
@@ -25,23 +14,20 @@ int main(int argc, char** argv)
 		return std::cout << "Error" << std::endl, -1;
 
 
-
-	//PmergeMe pMergeMe();
-
 	//make  first vector;
 	//make  first deque;
 	PmergeMe myFord(argc, argv);
 
-	//start time for vector;
-	myFord.startTime();
-	// mergeInsertion(vector);
-	//check time for vector;  // store vector time
-	myFord.finishTime();
-	myFord.calculateTime();
+//@@@@@@@@@@@@@@@@@@@@@@@@@@  VECTOR @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	myFord.setStartTime();
+	std::vector<int> result = myFord.mergeInsertion(myFord.getVector());
+	myFord.calculateVectorTime();
 
-	//start time for deque;
-	//mergeInsertion(deque);
-	//check time for deque; // store deque time
+//@@@@@@@@@@@@@@@@@@@@@@@@@@  DEQUE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	myFord.setStartTime();
+	std::deque<int> dequeResult = myFord.mergeInsertion(myFord.getDeque());
+	myFord.calculateDequeTime();
+
 
 	//compair sorted vector with sorted deque;
 	//if same, print sorted vector or deque;
@@ -49,14 +35,17 @@ int main(int argc, char** argv)
 	//before numberSequence print
 	myFord.displayUnsorted();
 	//after numberSequence print
-	myFord.displaySorted();
+	//myFord.displaySorted();
+	std::cout << "After:  ";
+	for (size_t i = 0; i < result.size(); ++i)
+		std::cout << result[i] << " ";
+	std::cout << std::endl;
+
 
 	//vector time print
 	myFord.displayVectorTime();
 	//deque time print
 	myFord.displayDequeTime();
-
-
 
 	return 0;
 }
