@@ -136,7 +136,7 @@ std::vector<int> mergeInsertion(std::vector<int> mainChain)
 	//	std::cout << pending[i] << std::endl;
 
 	std::vector<int> sorted = main;
-	std::vector<int> jacobArray = makeJacobsthalArray(pending.size());
+	std::vector<int> jacobArray = makeJacobsthalArray(main.size());
 
 	//std::cout << "@@@@@@@@  JACOB @@@@@@@@@" << std::endl;
 	//for (int i = 0; i < jacobArray.size(); ++i)
@@ -152,11 +152,11 @@ std::vector<int> mergeInsertion(std::vector<int> mainChain)
 		++i;
 	}
 
-	//if (main.size() < pending.size())
-	//{
-	//	std::cout << "MAIN:" << main.size() << " PEND:" << pending.size() << std::endl;
-	//	binaryInsertion(sorted, pending[pending.size()-1], sorted.size()-1);
-	//}
+	if (main.size() < pending.size())
+	{
+		std::cout << "MAIN:" << main.size() << " PEND:" << pending.size() << std::endl;
+		binaryInsertion(sorted, pending[pending.size()-1], sorted.size()-1);
+	}
 
 
 	//std::cout << "@@@@@@@@SORTED@@@@@@@@@@@@@" << std::endl;

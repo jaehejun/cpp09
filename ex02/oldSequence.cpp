@@ -19,8 +19,8 @@ pair : 11-10
 main : [0]11
 pend : [0]10	[1]12
 pair : [0]11-10
-makeJacob(pend.size()) : 1, 2
-jacob[i] : 0, 1
+makeJacob(pend.size) : 1
+jacob[i] : 0
 
 sorted(main) : [0]11
 sorted.insert(sorted.begin(), pend[0]);
@@ -29,10 +29,14 @@ pend : 			[0]10	[1]12
 
 i = 1; // jacobArr index
 while (i < jacob.size())
-jacob[i] = 1; @@@@ jacob[i](1) + i(1) - 1
-Binary(sorted, pend[jacob[i]], rightEnd);  rightEnd : 1 pend[1]"12" -> insert
+jacob[i] = 1;
 while end
 
+if (main.size < pend.size()) // pend에 짝이안맞는 element가 있었다면 가장 마지막 순서에 insert 되도록 -> binary 범위는 sort전체
+	Binary(sorted, pend[pend.size()-1], sorted.size()-1);  rightEnd : 1 pend[1]"12" -> insert
+
+sort : [0]10	[1]11	[2]12
+pend : 			[0]10			[1]12
 
 return sorted;
 
@@ -42,7 +46,7 @@ for (index i = 0; i < main.size())
 "@@@@@@@@@@@@@@@@@@@@"SORT#2"@@@@@@@@@@@@@@@@@@@@"
 main : [0]10	[1]11	[2]12
 pend : [0]9		[1]3 	[2]7
-makeJacob(pend.size()) : 1, 3, 2
+makeJacob(pend.size) : 1, 3, 2
 jacob[i] : 0, 2, 1
 
 sorted(main) : [0]10	[1]11	[2]12
@@ -65,6 +69,8 @@ pend : 							[0]9	[1]3 	[2]7
 
 while end
 
+if (main.size < pend.size()) // pend에 짝이안맞는 element가 있었다면 가장 마지막 순서에 insert 되도록 -> binary 범위는 sort전체
+	Binary(sorted, pend[pend.size()-1], sorted.size()-1);
 
 return sorted;
 
@@ -74,8 +80,8 @@ for (index i = 0; i < main.size())
 "@@@@@@@@@@@@@@@@@@@@"SORT#1"@@@@@@@@@@@@@@@@@@@@"
 main : [0]3 	[1]7 	[2]9	[3]10	[4]11	[5]12
 pend : [0]2		[1]6	[2]0	[3]5	[4]1	[5]8	[6]4
-makeJacob(pend.size()) : 1, 3, 2, 5, 4, 7, 6
-jacob[i] : 0, 2, 1, 4, 3, 6, 5
+makeJacob(pend.size) : 1, 3, 2, 5, 4, 6
+jacob[i] : 0, 2, 1, 4, 3, 5
 
 sorted(main) : [0]3 	[1]7 	[2]9	[3]10	[4]11	[5]12
 sorted.insert(sorted.begin(), pend[0]);
@@ -104,19 +110,19 @@ Binary(sorted, pend[jacob[i]], rightEnd); rightEnd : 6 (sort[7]"10" > pend[3]"5"
 
 sort : [0]0		[1]1	[2]2 	[3]3 	[4]5	[5]6	[6]7 	[7]9	[8]10	[9]11	[10]12
 pend : 							[0]2					[1]6	[2]0	[3]5	[4]1	[5]8	[6]4
-jacob[i] = 6 @@@@@@@ 6 + i(5) - 1
-Binary(sorted, pend[jacob[i]], rightEnd); rightEnd : 10 (pend[6]"4")
+jacob[i] = 5 @@@@@@@ 5 + i(5) - 1
+Binary(sorted, pend[jacob[i]], rightEnd); rightEnd : 9 (sort[10]"12" > pend[5]"8")
 
-sort : [0]0		[1]1	[2]2 	[3]3 	[4]4	[5]5	[6]6	[7]7 	[8]9	[9]10	[10]11	[11]12
+sort : [0]0		[1]1	[2]2 	[3]3 	[4]5	[5]6	[6]7 	[7]8	[8]9	[9]10	[10]11	[11]12
 pend : 							[0]2					[1]6			[2]0	[3]5	[4]1	[5]8	[6]4
-jacob[i] = 5 @@@@@@@ 5 + i(6) - 1
-Binary(sorted, pend[jacob[i]], rightEnd); rightEnd : 10 (sort[11]"12" > sortpend[5]"8")
-
-sort : [0]0		[1]1	[2]2 	[3]3 	[4]4	[5]5	[6]6	[7]7 	[8]8	[9]9	[10]10	[11]11	[12]12
-pend : 							[0]2					[1]6					[2]0	[3]5	[4]1	[5]8	[6]4
 
 while end
 
+if (main.size < pend.size()) // pend에 짝이안맞는 element가 있었다면 가장 마지막 순서에 insert 되도록 -> binary 범위는 sort전체
+	Binary(sorted, pend[pend.size()-1], sorted.size()-1);  rightEnd : 11 pend[6]"4" -> insert
+
+sort : [0]0		[1]1	[2]2 	[3]3 	[4]4	[5]5	[6]6	[7]7 	[8]8	[9]9	[10]10	[11]11	[12]12
+pend : 							[0]2					[1]6					[2]0	[3]5	[4]1	[5]8	[6]4
 
 return sorted
 
@@ -131,7 +137,7 @@ return sorted
 
 main : [0]0		[1]1	[2]2 	[3]3 	[4]4	[5]5	[6]6	[7]7 	[8]8	[9]9	[10]10	[11]11	[12]12
 pend : [0]-3	[1]-11	[2]-5 	[3]1 	[4]-6	[5]-2	[6]-10	[7]-9 	[8]-8	[9]-1	[10]-12	[11]-13	[12]-4
-makeJacob(pend.size()) : 1, 3, 2, 5, 4, 11, 10, 9, 8, 7, 6, 13, 12
+makeJacob(pend.size) : 1, 3, 2, 5, 4, 11, 10, 9, 8, 7, 6, 13, 12
 jacob[i] : 0, 2, 1, 4, 3, 10, 9, 8, 7, 6, 5, 12, 11
 
 sorted(main) : [0]0		[1]1	[2]2 	[3]3 	[4]4	[5]5	[6]6	[7]7 	[8]8	[9]9	[10]10	[11]11	[12]12
