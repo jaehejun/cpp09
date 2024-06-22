@@ -16,6 +16,9 @@ class PmergeMe
 {
 	private:
 		static int compairCount;
+
+		int argc;
+		char **argv;
 		
 		std::vector<int> unsortedVector;
 		std::vector<int> sortedVector;
@@ -23,37 +26,46 @@ class PmergeMe
 		std::deque<int> unsortedDeque;
 		std::deque<int> sortedDeque;
 
-		long inputSize;
-
+		clock_t start;
 		clock_t vectorTime;
 		clock_t dequeTime;
-		clock_t start;
 	
 		PmergeMe(const PmergeMe &other);
 		PmergeMe &operator=(const PmergeMe &other);
 
 	public:
+		// main execute func
+		void sort();
+		void verify();
+		void printResult();
+
 		PmergeMe(int argc, char** argv);
 		~PmergeMe();
 
 		//main argument error handling
-		static int checkInputString(const std::string &input);
+		static bool isValidInputString(const std::string &input);
 		// integer value overflow (argv[i])추가해야함
+
 
 		//jacobsthalNumber
 		long jacobsthalNumber(long number);
 
+		//compair vector-deque
+		bool isContainersSame();
+
+
 		//vector 
-		std::vector<int> getVector();
+		void setUnsorted(std::vector<int> &unsortedVector);
 		std::vector<int> mergeInsertion(std::vector<int> mainChain);
 		std::vector<long> makeJacobsthalVector(long mainSize);
 		void binaryInsertion(std::vector<int> &sorted, int value, long rightEnd);
 		
 		//deque 
-		std::deque<int> getDeque();
+		void setUnsorted(std::deque<int> &unsortedDeque);
 		std::deque<int> mergeInsertion(std::deque<int> mainChain);
 		std::deque<long> makeJacobsthalDeque(long mainSize);
 		void binaryInsertion(std::deque<int> &sorted, int value, long rightEnd);
+
 		
 		
 		//display

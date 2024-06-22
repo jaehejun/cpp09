@@ -2,29 +2,98 @@
 
 int PmergeMe::compairCount = 0;
 
-// class construction
-PmergeMe::PmergeMe(int argc, char** argv) : unsortedVector(), sortedVector(), unsortedDeque(), sortedDeque(), inputSize(0), vectorTime(0), dequeTime(0), start(0) 
+// main execute func
+void PmergeMe::sort()
 {
-	for (int i = 1; i < argc; ++i)
+	setStartTime();
+	//std::cout << "@@@@@@@@@@@  Set VEC Time @@@@@@@@@@@@" << std::endl;
+	setUnsorted(unsortedVector);
+	//std::cout << "@@@@@@@@@@@  Set UNSORTED VEC @@@@@@@@@@@@" << std::endl;
+	sortedVector = mergeInsertion(unsortedVector);
+	//std::cout << "@@@@@@@@@@@  SORTING VEC @@@@@@@@@@@@" << std::endl;
+	calculateVectorTime();
+	//std::cout << "@@@@@@@@@@@  CAL TIME FOR  VEC @@@@@@@@@@@@" << std::endl;
+
+	setStartTime();
+	//std::cout << "@@@@@@@@@@@  Set DEQ Time @@@@@@@@@@@@" << std::endl;
+	setUnsorted(unsortedDeque);
+	//std::cout << "@@@@@@@@@@@  Set UNSORTED DEQ @@@@@@@@@@@@" << std::endl;
+	sortedDeque = mergeInsertion(unsortedDeque);
+	//std::cout << "@@@@@@@@@@@  SORTING DEQ @@@@@@@@@@@@" << std::endl;
+	calculateDequeTime();
+	//std::cout << "@@@@@@@@@@@  CAL TIME FOR  DEQ @@@@@@@@@@@@" << std::endl;
+}
+
+//verifying std::sort with my fordjohnson
+void PmergeMe::verify()
+{
+	std::vector<int> stdSortVector = std::sort(unsortedVector.begin(), unsortedVector.end());
+	std::deque<int> stdSortDeque = std::sort(unsortedDeque.begin(), unsortedDeque.end());
+}
+
+void PmergeMe::printResult()
+{
+	displayUnsorted();
+	displaySorted();
+	displayVectorTime();
+	displayDequeTime();
+}
+
+void PmergeMe::setUnsorted(std::vector<int> &unsortedVector)
+{
+	for (int index = 1; index < argc; ++index)
 	{
-		unsortedVector.push_back(std::atoi(argv[i]));
-		unsortedDeque.push_back(std::atoi(argv[i]));
+		unsortedVector.push_back(std::atoi(argv[index]));
 	}
-	inputSize = static_cast<long>(unsortedVector.size());
+}
+
+void PmergeMe::setUnsorted(std::deque<int> &unsortedVector)
+{
+	for (int index = 1; index < argc; ++index)
+	{
+		unsortedVector.push_back(std::atoi(argv[index]));
+	}
+}
+
+// class construction
+PmergeMe::PmergeMe(int argc, char** argv) : argc(argc), argv(argv), unsortedVector(), sortedVector(), unsortedDeque(), sortedDeque(), start(0), vectorTime(0), dequeTime(0)
+{
+	//for (int i = 1; i < argc; ++i)
+	//{
+	//	unsortedVector.push_back(std::atoi(argv[i]));
+	//	pDeque.push_back(std::atoi(argv[i]));
+	//}
 }
 
 PmergeMe::~PmergeMe()
 {}
 
 //main argument error handling
-int PmergeMe::checkInputString(const std::string &inputString)
+bool PmergeMe::isValidInputString(const std::string &inputString)
 {
 	for (size_t i = 0; i < inputString.size(); ++i)
 	{
 		if (inputString[i] < '0' || inputString[i] > '9')
-			return -1;
+			return false;
 	}
-	return 0;
+	return true;
+}
+
+
+
+//compair vector-deque
+bool PmergeMe::isContainersSame()
+{
+	size_t vectorSize = unsortedVector.size();
+	size_t dequeSize = unsortedDeque.size();
+	if (vectorSize != dequeSize)
+		return false;
+	for (size_t i = 0; i < vectorSize; ++i)
+	{
+		if (unsortedVector[i] != unsortedDeque[i])
+			return false;
+	}
+	return true;
 }
 
 //jacobsthal Number
@@ -39,11 +108,10 @@ long PmergeMe::jacobsthalNumber(long number)
 }
 
 
+
+
 //@@@@@@@@@@@@@@@@@@@  vector sorting @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-std::vector<int> PmergeMe::getVector()
-{
-	return unsortedVector;
-}
+
 
 std::vector<int> PmergeMe::mergeInsertion(std::vector<int> mainChain)
 {
@@ -138,10 +206,6 @@ void PmergeMe::binaryInsertion(std::vector<int> &sorted, int value, long rightEn
 
 
 //@@@@@@@@@@@@@@@@@@@  Deque sorting @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-std::deque<int> PmergeMe::getDeque()
-{
-	return unsortedDeque;
-}
 
 std::deque<int> PmergeMe::mergeInsertion(std::deque<int> mainChain)
 {
@@ -263,14 +327,14 @@ void PmergeMe::displaySorted()
 
 void PmergeMe::displayVectorTime()
 {
-	std::cout << "Time to process a range of "<< inputSize << " elements with std::vector : ";
-	std::cout << static_cast<double>(vectorTime) / CLOCKS_PER_SEC << " us" << std::endl;
+	std::cout << "Time to process a range of "<< unsortedVector.size() << " elements with std::vector : ";
+	std::cout << static_cast<double>(vectorTime) / (CLOCKS_PER_SEC * 1000000.0) << " us" << std::endl;
 }
 
 void PmergeMe::displayDequeTime()
 {
-	std::cout << "Time to process a range of "<< inputSize << " elements with std::deque : ";
-	std::cout << static_cast<double>(dequeTime) / CLOCKS_PER_SEC << " us" << std::endl;
+	std::cout << "Time to process a range of "<< unsortedDeque.size() << " elements with std::deque : ";
+	std::cout << static_cast<double>(dequeTime) / (CLOCKS_PER_SEC * 1000000.0) << " us" << std::endl;
 }
 
 //time

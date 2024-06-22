@@ -195,7 +195,7 @@ int main()
 	//mainChain.push_back(4);
 
 	std::srand(std::time(NULL));
-	for (int i = 0; i < 17; ++i)
+	for (int i = 0; i < 3000; ++i)
 	{
 		int random = rand() % INT_MAX;
 		mainChain.push_back(random + 1);
