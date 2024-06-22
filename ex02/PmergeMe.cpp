@@ -27,8 +27,22 @@ void PmergeMe::sort()
 //verifying std::sort with my fordjohnson
 void PmergeMe::verify()
 {
-	std::vector<int> stdSortVector = std::sort(unsortedVector.begin(), unsortedVector.end());
-	std::deque<int> stdSortDeque = std::sort(unsortedDeque.begin(), unsortedDeque.end());
+	std::sort(unsortedVector.begin(), unsortedVector.end());
+	std::sort(unsortedDeque.begin(), unsortedDeque.end());
+	for (size_t i = 0; i < unsortedVector.size(); ++i)
+	{
+		if (unsortedVector[i] == sortedVector[i])
+			break;
+	}
+	for (size_t i = 0; i < unsortedDeque.size(); ++i)
+	{
+		if (unsortedDeque[i] == sortedDeque[i])
+		{
+
+		}
+			break;
+	}
+		std::cout << "Error" << std::endl;
 }
 
 void PmergeMe::printResult()

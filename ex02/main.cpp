@@ -4,6 +4,7 @@ int main(int argc, char **argv)
 {
 	PmergeMe myFord(argc, argv);
 	myFord.sort();
+	myFord.verify();
 	myFord.printResult();
 	
 	return 0;
