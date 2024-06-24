@@ -129,13 +129,13 @@ void PmergeMe::displaySorted()
 void PmergeMe::displayVectorTime()
 {
 	std::cout << "Time to process a range of "<< unsortedVector.size() << " elements with std::vector : ";
-	std::cout << std::fixed << std::setprecision(5) << static_cast<double>(vectorTime) / CLOCKS_PER_SEC * 1000000.0 << " us" << std::endl;
+	std::cout << static_cast<double>(vectorTime) / CLOCKS_PER_SEC * 1000000.0 << " us" << std::endl;
 }
 
 void PmergeMe::displayDequeTime()
 {
 	std::cout << "Time to process a range of "<< unsortedDeque.size() << " elements with std::deque  : ";
-	std::cout << std::fixed << std::setprecision(5) << static_cast<double>(dequeTime) / CLOCKS_PER_SEC * 1000000.0 << " us" << std::endl;
+	std::cout << static_cast<double>(dequeTime) / CLOCKS_PER_SEC * 1000000.0 << " us" << std::endl;
 }
 
 // methods for vector
