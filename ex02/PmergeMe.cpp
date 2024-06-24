@@ -175,7 +175,6 @@ std::vector<int> PmergeMe::mergeInsertion(std::vector<int> mainChain)
 	if (n % 2 == 1)
 		pending.push_back(mainChain[n-1]);
 
-
 	//step 2 : Recursion and Renaming
 	if (main.size() > 1)
 		main = mergeInsertion(main);
@@ -230,6 +229,7 @@ std::vector<int> PmergeMe::makeJacobsthalVector(int mainSize)
 
 void PmergeMe::binaryInsertion(std::vector<int> &sorted, int value, int rightEnd)
 {
+	//auto start = std::chrono::high_resolution_clock::now();
 	int left = 0;
 	int right = rightEnd;
 	int mid;
@@ -241,7 +241,14 @@ void PmergeMe::binaryInsertion(std::vector<int> &sorted, int value, int rightEnd
 		else //(value > sorted[mid])
 			left = mid + 1;
 	}
+	//auto end = std::chrono::high_resolution_clock::now();
+	//auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+	//std::cout << "VECTOR SEARCH time with " << "[" << rightEnd + 1 << "]" << "elements : " << duration.count() << " nanoseconds" << std::endl;
 	sorted.insert((sorted.begin() + left), value);
+	//auto startIn = std::chrono::high_resolution_clock::now();
+	//auto endIn = std::chrono::high_resolution_clock::now();
+	//auto durationIn = std::chrono::duration_cast<std::chrono::nanoseconds>(endIn - startIn);
+	//std::cout << "VECTOR INSERT time with " << "[" << left << "]" << " in [" << sorted.size() << "]" <<"elements : " << durationIn.count() << " nanoseconds" << std::endl;
 }
 
 // methods for deque
@@ -337,6 +344,7 @@ std::deque<int> PmergeMe::makeJacobsthalDeque(int mainSize)
 
 void PmergeMe::binaryInsertion(std::deque<int> &sorted, int value, int rightEnd)
 {
+	//auto start = std::chrono::high_resolution_clock::now();
 	int left = 0;
 	int right = rightEnd;
 	int mid;
@@ -348,5 +356,14 @@ void PmergeMe::binaryInsertion(std::deque<int> &sorted, int value, int rightEnd)
 		else //(value > sorted[mid])
 			left = mid + 1;
 	}
+	//auto end = std::chrono::high_resolution_clock::now();
+	//auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+	//std::cout << "DEQUE SEARCH time with " << "[" << rightEnd + 1 << "]" << "elements : " << duration.count() << " nanoseconds" << std::endl;
+
 	sorted.insert((sorted.begin() + left), value);
+	//auto startIn = std::chrono::high_resolution_clock::now();
+	//auto endIn = std::chrono::high_resolution_clock::now();
+	//auto durationIn = std::chrono::duration_cast<std::chrono::nanoseconds>(endIn - startIn);
+	//std::cout << "DEQUE INSERT time with " << "[" << left << "]" << " in [" << sorted.size() << "]" <<"elements : " << durationIn.count() << " nanoseconds" << std::endl;
+
 }

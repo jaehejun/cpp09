@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 		myFord.checkInputString();
 		myFord.executeSorting();
 		myFord.verify();
-		//myFord.printResult();
+		myFord.printResult();
 
 	}
 	catch (std::logic_error &e)
