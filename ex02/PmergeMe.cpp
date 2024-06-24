@@ -236,7 +236,6 @@ void PmergeMe::binaryInsertion(std::vector<int> &sorted, int value, int rightEnd
 	while (left <= right)
 	{
 		mid = (left + right) / 2;
-		compairCount++;
 		if (value < sorted[mid])
 			right = mid - 1;
 		else //(value > sorted[mid])
@@ -344,7 +343,6 @@ void PmergeMe::binaryInsertion(std::deque<int> &sorted, int value, int rightEnd)
 	while (left <= right)
 	{
 		mid = (left + right) / 2;
-		compairCount++;
 		if (value < sorted[mid])
 			right = mid - 1;
 		else //(value > sorted[mid])

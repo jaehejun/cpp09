@@ -11,8 +11,6 @@
 class PmergeMe
 {
 	private:
-		static int compairCount;
-
 		int argc;
 		char **argv;
 		
