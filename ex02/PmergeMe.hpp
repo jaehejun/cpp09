@@ -2,6 +2,8 @@
 #define PMERGEME_HPP
 
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <vector>
 #include <deque>
 #include <ctime>
@@ -33,40 +35,15 @@ class PmergeMe
 		PmergeMe(const PmergeMe &other);
 		PmergeMe &operator=(const PmergeMe &other);
 
-	public:
-		// main execute func
-		void sort();
-		void verify();
-		void printResult();
+	//common methods
 
-		PmergeMe(int argc, char** argv);
-		~PmergeMe();
-
-		//main argument error handling
-		static bool isValidInputString(const std::string &input);
-		// integer value overflow (argv[i])추가해야함
-
-
-		//jacobsthalNumber
+		//time
+		void setStartTime();
+		void calculateVectorTime();
+		void calculateDequeTime();
+		
+		//jacobsthal
 		long jacobsthalNumber(long number);
-
-		//compair vector-deque
-		bool isContainersSame();
-
-
-		//vector 
-		void setUnsorted(std::vector<int> &unsortedVector);
-		std::vector<int> mergeInsertion(std::vector<int> mainChain);
-		std::vector<long> makeJacobsthalVector(long mainSize);
-		void binaryInsertion(std::vector<int> &sorted, int value, long rightEnd);
-		
-		//deque 
-		void setUnsorted(std::deque<int> &unsortedDeque);
-		std::deque<int> mergeInsertion(std::deque<int> mainChain);
-		std::deque<long> makeJacobsthalDeque(long mainSize);
-		void binaryInsertion(std::deque<int> &sorted, int value, long rightEnd);
-
-		
 		
 		//display
 		void displayUnsorted();
@@ -74,10 +51,30 @@ class PmergeMe
 		void displayVectorTime();
 		void displayDequeTime();
 
-		//time
-		void setStartTime();
-		void calculateVectorTime();
-		void calculateDequeTime();
+
+	//vector methods
+		void setUnsorted(std::vector<int> &unsortedVector);
+		std::vector<int> mergeInsertion(std::vector<int> mainChain);
+		std::vector<int> makeJacobsthalVector(int mainSize);
+		void binaryInsertion(std::vector<int> &sorted, int value, int rightEnd);
+		
+	//deque methods
+		void setUnsorted(std::deque<int> &unsortedDeque);
+		std::deque<int> mergeInsertion(std::deque<int> mainChain);
+		std::deque<int> makeJacobsthalDeque(int mainSize);
+		void binaryInsertion(std::deque<int> &sorted, int value, int rightEnd);
+
+	public:
+		PmergeMe(int argc, char** argv);
+		~PmergeMe();
+
+	// main methods
+		void checkInputString();
+		void executeSorting();
+		void verify();
+		void printResult();
+
+
 };
 
 #endif
