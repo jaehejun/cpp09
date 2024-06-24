@@ -8,12 +8,6 @@
 #include <deque>
 #include <ctime>
 
-//typedef struct
-//{
-//	int value;
-//	long index;
-//}	element;
-
 class PmergeMe
 {
 	private:
@@ -41,16 +35,15 @@ class PmergeMe
 		void setStartTime();
 		void calculateVectorTime();
 		void calculateDequeTime();
-		
+
 		//jacobsthal
 		long jacobsthalNumber(long number);
-		
+
 		//display
 		void displayUnsorted();
 		void displaySorted();
 		void displayVectorTime();
 		void displayDequeTime();
-
 
 	//vector methods
 		void setUnsorted(std::vector<int> &unsortedVector);
@@ -73,8 +66,6 @@ class PmergeMe
 		void executeSorting();
 		void verify();
 		void printResult();
-
-
 };
 
 #endif

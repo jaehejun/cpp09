@@ -7,8 +7,6 @@ PmergeMe::PmergeMe(int argc, char** argv)
 PmergeMe::~PmergeMe()
 {}
 
-int PmergeMe::compairCount = 0;
-
 // main execute func
 
 ////check input arguments
