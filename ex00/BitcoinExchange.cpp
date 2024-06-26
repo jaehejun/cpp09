@@ -8,7 +8,7 @@ BitcoinExchange::BitcoinExchange(int &date, float &value) :  inputDate(date), in
 BitcoinExchange::~BitcoinExchange()
 {}
 
-void BitcoinExchange::loadData(std::ifstream &data)
+void BitcoinExchange::loadExchangeRate(std::ifstream &data)
 {
 	std::string line;
 	float rate;
@@ -16,6 +16,8 @@ void BitcoinExchange::loadData(std::ifstream &data)
 	std::getline(data, line);
 	while (std::getline(data, line))
 	{
+		if (line.empty())
+			break;
 		std::string date = line.substr(0,4) + line.substr(5,2) + line.substr(8,2);
 		int intDate = std::atoi(date.c_str());
 		std::stringstream value(line.substr(11));

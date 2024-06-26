@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 	if (!data.is_open())
 		return std::cout << "Error: could not open data.csv file." << std::endl, -1;
 	
-	BitcoinExchange::loadData(data);
+	BitcoinExchange::loadExchangeRate(data);
 
 	while (std::getline(inputFile, inputLine))
 	{
