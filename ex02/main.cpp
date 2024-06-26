@@ -9,7 +9,6 @@ int main(int argc, char **argv)
 		myFord.executeSorting();
 		myFord.verify();
 		myFord.printResult();
-
 	}
 	catch (std::logic_error &e)
 	{

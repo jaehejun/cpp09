@@ -127,13 +127,13 @@ void PmergeMe::displaySorted()
 void PmergeMe::displayVectorTime()
 {
 	std::cout << "Time to process a range of "<< unsortedVector.size() << " elements with std::vector : ";
-	std::cout << static_cast<double>(vectorTime) / CLOCKS_PER_SEC * 1000000.0 << " us" << std::endl;
+	std::cout << static_cast<double>(vectorTime) / CLOCKS_PER_SEC * 1000000 << " us" << std::endl;
 }
 
 void PmergeMe::displayDequeTime()
 {
 	std::cout << "Time to process a range of "<< unsortedDeque.size() << " elements with std::deque  : ";
-	std::cout << static_cast<double>(dequeTime) / CLOCKS_PER_SEC * 1000000.0 << " us" << std::endl;
+	std::cout << static_cast<double>(dequeTime) / CLOCKS_PER_SEC * 1000000 << " us" << std::endl;
 }
 
 // methods for vector
@@ -229,7 +229,6 @@ std::vector<int> PmergeMe::makeJacobsthalVector(int mainSize)
 
 void PmergeMe::binaryInsertion(std::vector<int> &sorted, int value, int rightEnd)
 {
-	//auto start = std::chrono::high_resolution_clock::now();
 	int left = 0;
 	int right = rightEnd;
 	int mid;
@@ -241,14 +240,7 @@ void PmergeMe::binaryInsertion(std::vector<int> &sorted, int value, int rightEnd
 		else //(value > sorted[mid])
 			left = mid + 1;
 	}
-	//auto end = std::chrono::high_resolution_clock::now();
-	//auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-	//std::cout << "VECTOR SEARCH time with " << "[" << rightEnd + 1 << "]" << "elements : " << duration.count() << " nanoseconds" << std::endl;
 	sorted.insert((sorted.begin() + left), value);
-	//auto startIn = std::chrono::high_resolution_clock::now();
-	//auto endIn = std::chrono::high_resolution_clock::now();
-	//auto durationIn = std::chrono::duration_cast<std::chrono::nanoseconds>(endIn - startIn);
-	//std::cout << "VECTOR INSERT time with " << "[" << left << "]" << " in [" << sorted.size() << "]" <<"elements : " << durationIn.count() << " nanoseconds" << std::endl;
 }
 
 // methods for deque
@@ -344,7 +336,6 @@ std::deque<int> PmergeMe::makeJacobsthalDeque(int mainSize)
 
 void PmergeMe::binaryInsertion(std::deque<int> &sorted, int value, int rightEnd)
 {
-	//auto start = std::chrono::high_resolution_clock::now();
 	int left = 0;
 	int right = rightEnd;
 	int mid;
@@ -356,14 +347,5 @@ void PmergeMe::binaryInsertion(std::deque<int> &sorted, int value, int rightEnd)
 		else //(value > sorted[mid])
 			left = mid + 1;
 	}
-	//auto end = std::chrono::high_resolution_clock::now();
-	//auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-	//std::cout << "DEQUE SEARCH time with " << "[" << rightEnd + 1 << "]" << "elements : " << duration.count() << " nanoseconds" << std::endl;
-
 	sorted.insert((sorted.begin() + left), value);
-	//auto startIn = std::chrono::high_resolution_clock::now();
-	//auto endIn = std::chrono::high_resolution_clock::now();
-	//auto durationIn = std::chrono::duration_cast<std::chrono::nanoseconds>(endIn - startIn);
-	//std::cout << "DEQUE INSERT time with " << "[" << left << "]" << " in [" << sorted.size() << "]" <<"elements : " << durationIn.count() << " nanoseconds" << std::endl;
-
 }
