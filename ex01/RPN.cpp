@@ -1,6 +1,6 @@
 #include "RPN.hpp"
 
-RPN::RPN() : error(false)
+RPN::RPN() : rpnStack(), error(false)
 {}
 
 RPN::~RPN()
