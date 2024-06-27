@@ -7,28 +7,25 @@
 class RPN
 {
 	private:
+		int argc;
+		char **argv;
+		std::string inputString;
 		std::stack<int> rpnStack;
-		bool error;
 
 		RPN(const RPN &other);
 		RPN &operator=(const RPN &other);
 
+		bool isOperation(char element);
+		void pushElement(int element);
+		void calculate(char rpnOperator);
+
 	public:
-		RPN();
+		RPN(int argc, char **argv);
 		~RPN();
 
-		int isWrongElement(char element);
-		void pushElement(char element);
-
-		void plus();
-		void minus();
-		void devide();
-		void multiple();
-
-		bool isError();
-
-		int getStackSize();
-		int getResult();
+		void checkArgument();
+		void getResult();
+		void diplayResult();
 };
 
 #endif

@@ -1,98 +1,80 @@
 #include "RPN.hpp"
 
-RPN::RPN() : rpnStack(), error(false)
+RPN::RPN(int argc, char **argv) : argc(argc), argv(argv), inputString(), rpnStack()
 {}
 
 RPN::~RPN()
 {}
 
-int RPN::isWrongElement(char element)
+void RPN::checkArgument()
 {
-	if (element >= '0' || element <= '9')
-		return 0;
-	else if (element == '+' || element == '-' || element == '/' || element == '*' || element == ' ')
-		return 0;
-	else
-		return -1;
-}
-
-void RPN::pushElement(char element)
-{
-	rpnStack.push(element - '0');
-}
-
-void RPN::plus()
-{
-	if (rpnStack.size() < 2)
-		error = true;
-	else
+	if (argc != 2)
+		throw std::invalid_argument("Error");
+	
+	inputString = argv[1];
+	for (size_t i = 0; i < inputString.size(); ++i)
 	{
-		int temp = rpnStack.top();
-		rpnStack.pop();
-		int result = rpnStack.top() + temp; 
-		rpnStack.pop();
-		rpnStack.push(result);
+		if (inputString[i] == ' ')
+			break;
+		if ((inputString[i] < '0' || inputString[i] > '9') && !isOperation(inputString[i]))
+			throw std::invalid_argument("Error");
 	}
 }
 
-void RPN::minus()
+void RPN::getResult()
 {
-	if (rpnStack.size() < 2)
-		error = true;
-	else
+	for (size_t i = 0; i < inputString.length(); ++i)
 	{
-		int temp = rpnStack.top();
-		rpnStack.pop();
-		int result = rpnStack.top() - temp; 
-		rpnStack.pop();
-		rpnStack.push(result);
-	}
-}
-
-void RPN::devide()
-{
-	if (rpnStack.size() < 2)
-		error = true;
-	else
-	{
-		int temp = rpnStack.top();
-		if (temp == 0)
-			error = true;
+		if (inputString[i] == ' ')
+			continue;
+		if (isOperation(inputString[i]))
+			calculate(inputString[i]);
 		else
-		{
-			rpnStack.pop();
-			int result = rpnStack.top() / temp; 
-			rpnStack.pop();
-			rpnStack.push(result);
-		}
+			pushElement(inputString[i] - '0');
 	}
+	if (rpnStack.size() != 1)
+		throw std::logic_error("Error");
 }
 
-void RPN::multiple()
+void RPN::diplayResult()
+{
+	std::cout << rpnStack.top() << std::endl;
+}
+
+bool RPN::isOperation(char element)
+{
+	if (element == '+' || element == '-' || element == '/' || element == '*')
+		return true;
+	return false;
+}
+
+void RPN::pushElement(int element)
+{
+	rpnStack.push(element);
+}
+
+void RPN::calculate(char rpnOperator)
 {
 	if (rpnStack.size() < 2)
-		error = true;
-	else
+		throw std::logic_error("Error");
+	int result;
+	int temp = rpnStack.top();
+	rpnStack.pop();
+
+	if (rpnOperator == '+')
+		result = rpnStack.top() + temp;
+	else if (rpnOperator == '-')
+		result = rpnStack.top() - temp;
+	else if (rpnOperator == '*')
+		result = rpnStack.top() * temp;
+	else // rpnOperator == '/'
 	{
-		int temp = rpnStack.top();
-		rpnStack.pop();
-		int result = rpnStack.top() * temp; 
-		rpnStack.pop();
-		rpnStack.push(result);
+		if (temp == 0)
+			throw std::domain_error("Error");
+		result = rpnStack.top() / temp;
 	}
-}
-
-bool RPN::isError()
-{
-	return error;
-}
-
-int RPN::getStackSize()
-{
-	return rpnStack.size();
-}
-
-int RPN::getResult()
-{
-	return rpnStack.top();
+	//std::cout << rpnStack.top() << " " << rpnOperator << " " << temp << " = " << result << std::endl;
+	rpnStack.pop();
+	rpnStack.push(result);
+	//std::cout << "Top() : " << rpnStack.top() << std::endl;
 }
